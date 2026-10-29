@@ -1,7 +1,7 @@
 # Nameyry
 
 Nameyry is a small community app for discovering and sharing nicknames for
-games, creative projects, and online identities.
+games, creative projects, and online identities. Jst an web to make as an project and also may be helpful for names , you can publish your liking there also so just do it for fun at least.
 
 ## Features
 

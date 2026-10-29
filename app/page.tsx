@@ -28,7 +28,7 @@ export default async function Home() {
           <Link className="transition-colors hover:text-foreground" href="/contact">Contact</Link>
           <div className="gitStar hidden items-center gap-2 rounded-full border border-border bg-foreground/5 px-3 py-2 text-foreground sm:flex">
             <StarIcon className="h-4 w-4 text-primary" />
-            <Link href="#">Star on GitHub</Link>
+            <Link href="https://github.com/Codeyry/nameyry">Star on GitHub</Link>
           </div>
         </div>
       </nav>

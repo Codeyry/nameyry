@@ -4,7 +4,7 @@ import { useState } from "react";
 // icons componenets
 import CopyIcon from "@/components/icons/CopyIcon";
 import CopyButton from "@/app/components/CopyButton";
-import ListIcon from "../icons/ListIcon";
+import ListIcon from "./icons/ListIcon";
 import { Sparkles } from "lucide-react";
 
 type NameItemType = {

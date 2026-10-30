@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 // icons componenets
-import CopyIcon from "@/app/components/icons/CopyIcon";
-import CopyButton from "@/app/components/ui/CopyButton";
+import CopyIcon from "@/components/icons/CopyIcon";
+import CopyButton from "@/components/ui/CopyButton";
 import ListIcon from "../icons/ListIcon";
 import { Sparkles } from "lucide-react";
 

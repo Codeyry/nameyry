@@ -34,10 +34,13 @@ export default function SubmitForm() {
       const result = await setNames(nickname, publisherName, publisherEmail);
 
       if (!result.success) {
-        setError(result.message);
+        setError(result.message ?? "Something went wrong");   
         setLoading(false);
         return;
       }
+
+      // In actions.ts — make sure every return has a message
+      if (error) return { success: false, message: error };
 
       setSuccess(true);
       setTimeout(() => router.push("/"), 2000);

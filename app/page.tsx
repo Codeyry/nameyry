@@ -1,4 +1,4 @@
-import MainSection from "@/app/components/MainSection";
+import MainSection from "@/components/MainSection";
 import Logo from "@/components/icons/Logo";
 import Link from "next/link";
 import StarIcon from "@/components/icons/StarIcon";

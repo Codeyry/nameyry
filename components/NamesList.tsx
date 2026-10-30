@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 // icons componenets
 import CopyIcon from "@/components/icons/CopyIcon";
-import CopyButton from "@/app/components/CopyButton";
+import CopyButton from "@/components/CopyButton";
 import ListIcon from "./icons/ListIcon";
 import { Sparkles } from "lucide-react";
 
@@ -15,26 +14,14 @@ type NameItemType = {
   created_at: string;
 };
 
-export default function NamesList({
-  namesData,
-}: {
-  namesData: NameItemType[];
-}) {
-  const [sort, setSort] = useState("popular");
+type Props = {
+  names: NameItemType[];
+  sort: "popular" | "recent";
+  onSortChange: (s: "popular" | "recent") => void;
+};
 
-  //sort logic
 
-  const names = [...namesData].sort((a, b) => {
-    if (sort === "recent") {
-      return b.created_at.localeCompare(a.created_at);
-    }
-
-    if (sort === "popular") {
-      return b.likes - a.likes;
-    }
-
-    return 0;
-  });
+export default function NamesList({ names, sort, onSortChange }: Props) {
 
   return (
     <div>
@@ -51,9 +38,9 @@ export default function NamesList({
             <select
               name="names"
               id="names"
-              defaultValue="popular"
-              className="rounded-sm border border-white/10 bg-card px-3 py-2.5 text-sm font-semibold text-foreground outline-none transition-colors hover:border-white/20 focus-visible:ring-2 focus-visible:ring-ring"
-              onChange={(e) => setSort(e.target.value)}
+              className="rounded-sm border border-border bg-card px-3 py-2.5 text-sm font-semibold text-foreground outline-none transition-colors hover:border-primary/40 focus-visible:ring-2 focus-visible:ring-ring"
+              value={sort}
+              onChange={(e) => onSortChange(e.target.value as "popular" | "recent")}
             >
               <option value="recent">Recent</option>
               <option value="popular">Popular</option>
@@ -64,7 +51,7 @@ export default function NamesList({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {names.length > 0 ? (
             names.map((item) => (
-              <div key={item.id} className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-white/8 bg-card/80 px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-card sm:px-5">
+              <div key={item.id} className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-border/70 bg-card/80 px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card sm:px-5">
                   <div className="left flex min-w-0 flex-col gap-1.5">
                     <h2 className="truncate text-lg font-bold tracking-tight">{item.nickname}</h2>
                     <p className="text-xs text-muted-foreground">By <span className="font-medium text-secondary">{item.publisher}</span></p>
@@ -75,14 +62,14 @@ export default function NamesList({
                       <p className="text-xs font-bold text-primary">{item.likes}</p>
                     </div>
 
-                    <div className="rounded-lg p-2 transition-colors hover:bg-white/8">
+                    <div className="rounded-lg p-2 transition-colors hover:bg-foreground/5">
                       <CopyButton text={item.nickname} />
                     </div>
                   </div>
               </div>
             ))
           ) : (
-            <div className="col-span-full flex min-h-64 flex-col items-center justify-center rounded-3xl border border-dashed border-white/12 bg-card/45 px-6 py-12 text-center">
+            <div className="col-span-full flex min-h-64 flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card/45 px-6 py-12 text-center">
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary shadow-[0_0_36px_-14px_var(--primary)]">
                 <Sparkles className="h-6 w-6" aria-hidden="true" />
               </div>
@@ -90,7 +77,7 @@ export default function NamesList({
               <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
                 The name list is taking a breather. Check back soon for fresh ideas from the community.
               </p>
-              <span className="mt-6 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-secondary">
+              <span className="mt-6 rounded-full border border-border bg-foreground/5 px-3 py-1 text-xs font-semibold text-secondary">
                 New picks are on the way
               </span>
             </div>

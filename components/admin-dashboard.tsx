@@ -186,10 +186,10 @@ export default function AdminDashboard({
 
   return (
     <div className="min-h-[calc(100vh-8rem)] bg-muted/30 dark:bg-[#172820]">
-      <div className="mx-auto w-full max-w-7xl px-5 pb-14 pt-8 sm:px-8">
-        <header className="mb-7 flex flex-wrap items-end justify-between gap-3">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-14 pt-6 sm:px-8 sm:pt-8">
+        <header className="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-7">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Admin overview
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -218,33 +218,33 @@ export default function AdminDashboard({
             icon={Clock3}
           />
           <OverviewCard
-            label="Visitors this month"
+            label="Total Visitor till now"
             value={String(settings.total_visitors)}
-            note="Unique browsers · October"
+            note="Home page opens number"
             icon={Users}
           />
         </section>
 
         <Card className="mt-6 overflow-hidden shadow-none">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b p-5">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b p-4 sm:p-5">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center gap-2">
                   <h2 className="font-semibold">Name management</h2>
                   <Badge variant="secondary">{names.length}</Badge>
                 </div>
-                <div className="mt-3 flex gap-1 rounded-lg bg-muted p-1 text-sm">
+                <div className="flex w-full gap-1 rounded-lg bg-muted p-1 text-sm sm:w-auto">
                   <button
                     type="button"
                     onClick={() => setView("pending")}
-                    className={`rounded-md px-3 py-1.5 ${view === "pending" ? "bg-background font-medium shadow-sm" : "text-muted-foreground"}`}
+                    className={`flex-1 rounded-md px-3 py-1.5 sm:flex-none ${view === "pending" ? "bg-background font-medium shadow-sm" : "text-muted-foreground"}`}
                   >
                     Pending ({pendingNames.length})
                   </button>
                   <button
                     type="button"
                     onClick={() => setView("published")}
-                    className={`rounded-md px-3 py-1.5 ${view === "published" ? "bg-background font-medium shadow-sm" : "text-muted-foreground"}`}
+                    className={`flex-1 rounded-md px-3 py-1.5 sm:flex-none ${view === "published" ? "bg-background font-medium shadow-sm" : "text-muted-foreground"}`}
                   >
                     Published ({publishedNames.length})
                   </button>
@@ -293,7 +293,90 @@ export default function AdminDashboard({
             </p>
           )}
 
-          <div className="overflow-x-auto">
+          <div className="space-y-3 p-4 md:hidden">
+            {filteredNames.map((name) => (
+              <article key={name.id} className="rounded-lg border bg-background p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="break-words font-medium">{name.nickname}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {name.status === "pending" ? "Pending" : "Published"} ·{" "}
+                      {timeAgo(name.created_at)}
+                    </p>
+                  </div>
+                  <Badge variant="secondary" className="shrink-0">
+                    {name.likes} likes
+                  </Badge>
+                </div>
+                <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+                  <dt className="text-muted-foreground">Publisher</dt>
+                  <dd className="min-w-0 break-words text-right">{name.publisher}</dd>
+                  <dt className="text-muted-foreground">Email</dt>
+                  <dd className="min-w-0 break-all text-right text-muted-foreground">
+                    {name.publisher_email}
+                  </dd>
+                </dl>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  <label className="flex min-w-[8rem] flex-1 items-center gap-2">
+                    <Heart className="h-3.5 w-3.5 shrink-0 text-primary" />
+                    <Input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={likesDrafts[name.id] ?? String(name.likes)}
+                      onChange={(event) =>
+                        setLikesDrafts((current) => ({
+                          ...current,
+                          [name.id]: event.target.value,
+                        }))
+                      }
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") handleLikesUpdate(name);
+                      }}
+                      className="h-8"
+                      aria-label={`Likes for ${name.nickname}`}
+                      disabled={busyId === name.id}
+                    />
+                  </label>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleLikesUpdate(name)}
+                    disabled={busyId === name.id}
+                  >
+                    <Check />
+                    Save
+                  </Button>
+                  {name.status === "pending" && (
+                    <Button
+                      size="sm"
+                      onClick={() => handlePublish(name.id)}
+                      disabled={busyId === name.id}
+                    >
+                      <Check />
+                      Publish
+                    </Button>
+                  )}
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    aria-label={`Delete ${name.nickname}`}
+                    onClick={() => handleDelete(name)}
+                    disabled={busyId === name.id}
+                  >
+                    <Trash2 />
+                  </Button>
+                </div>
+              </article>
+            ))}
+            {filteredNames.length === 0 && (
+              <p className="py-8 text-center text-sm text-muted-foreground">
+                No matching names.
+              </p>
+            )}
+          </div>
+
+          <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[760px] text-left text-sm">
               <thead className="bg-muted/50 text-xs text-muted-foreground">
                 <tr>
@@ -391,7 +474,7 @@ export default function AdminDashboard({
               </tbody>
             </table>
           </div>
-          <p className="border-t px-5 py-3 text-xs text-muted-foreground">
+          <p className="border-t px-4 py-3 text-xs text-muted-foreground sm:px-5">
             Showing {filteredNames.length} of {names.length} {view} names
           </p>
         </Card>
@@ -401,7 +484,7 @@ export default function AdminDashboard({
           aria-label="Site settings"
         >
           <Card className="shadow-none">
-            <CardContent className="p-5">
+            <CardContent className="p-4 sm:p-5">
               <div className="mb-4 flex items-center gap-2">
                 <Wrench className="h-4 w-4 text-primary" />
                 <h2 className="font-semibold">Site availability</h2>
@@ -479,13 +562,13 @@ export default function AdminDashboard({
           </Card>
 
           <Card className="shadow-none">
-            <CardContent className="p-5">
+            <CardContent className="p-4 sm:p-5">
               <h2 className="font-semibold">Quick settings</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Keep your admin tools close.
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Button variant="outline" asChild>
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                <Button variant="outline" className="w-full sm:w-auto" asChild>
                   <a
                     href="https://supabase.com/dashboard"
                     target="_blank"
@@ -494,7 +577,7 @@ export default function AdminDashboard({
                     Open Supabase <ArrowUpRight />
                   </a>
                 </Button>
-                <Button variant="outline" asChild>
+                <Button variant="outline" className="w-full sm:w-auto" asChild>
                   <Link href="/">
                     View public site <ArrowUpRight />
                   </Link>

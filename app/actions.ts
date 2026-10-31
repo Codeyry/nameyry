@@ -181,7 +181,7 @@ export async function likeNicknameCount(id: number) {
 
 export async function addVisitorsCount() {
 
-  const { error } = await supabase.rpc("add_like");
+  const { error } = await supabase.rpc("add_visit");
 
   if (error) throw error;
 }

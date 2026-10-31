@@ -3,11 +3,13 @@ import Logo from "@/components/icons/Logo";
 import Link from "next/link";
 import StarIcon from "@/components/icons/StarIcon";
 import MaintenanceScreen from "@/components/maintenance-screen";
+import { addVisitorsCount } from "@/app/actions"
 
 import { getNames, getSettings } from "./actions";
 
 export default async function Home() {
   const settings = await getSettings();
+  addVisitorsCount()
 
   if (settings?.maintenance_mode === true) {
     return <MaintenanceScreen />;

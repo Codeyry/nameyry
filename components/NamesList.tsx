@@ -63,7 +63,7 @@ export default function NamesList({ names, sort, onSortChange }: Props) {
                     </div>
 
                     <div className="rounded-lg p-2 transition-colors hover:bg-foreground/5">
-                      <CopyButton text={item.nickname} />
+                      <CopyButton text={item.nickname} id={item.id}/>
                     </div>
                   </div>
               </div>

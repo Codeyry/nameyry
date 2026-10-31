@@ -166,3 +166,22 @@ export async function getSettings() {
   if (error) return null;
   return data[0] ?? null;
 }
+
+
+
+export async function likeNicknameCount(id: number) {
+
+  const { error } = await supabase.rpc("add_like", {
+    nickname_id: id,
+  });
+
+  if (error) throw error;
+}
+
+
+export async function addVisitorsCount() {
+
+  const { error } = await supabase.rpc("add_like");
+
+  if (error) throw error;
+}

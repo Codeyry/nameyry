@@ -187,16 +187,16 @@ export default function AdminDashboard({
   return (
     <div className="min-h-[calc(100vh-8rem)] bg-muted/30 dark:bg-[#172820]">
       <div className="mx-auto w-full max-w-7xl px-4 pb-14 pt-6 sm:px-8 sm:pt-8">
-        <header className="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-7">
-          <div>
+        <header className="mb-6 flex flex-col items-start gap-3 sm:mb-7 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Admin overview
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 break-words text-xs leading-5 text-muted-foreground sm:text-sm">
               A quick snapshot of Nameyry{adminEmail ? ` · ${adminEmail}` : ""}.
             </p>
           </div>
-          <Badge variant="secondary" className="rounded-full">
+          <Badge variant="secondary" className="shrink-0 rounded-full">
             Live data
           </Badge>
         </header>

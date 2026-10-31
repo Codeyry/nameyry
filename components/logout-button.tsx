@@ -13,5 +13,9 @@ export function LogoutButton() {
     router.push("/auth/login");
   };
 
-  return <Button onClick={logout}>Logout</Button>;
+  return (
+    <Button size="sm" className="shrink-0 px-2.5 sm:px-3" onClick={logout}>
+      Logout
+    </Button>
+  );
 }
